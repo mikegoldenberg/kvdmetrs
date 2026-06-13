@@ -3,712 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анализ рынка недвижимости Тамбова 2026 • Century 21 Address</title>
+    <title>Анализ рынка недвижимости Тамбова 2026 • Century 21</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=SF+Pro+Display:wght@400;500;600&amp;display=swap');
-        
-        :root {
-            --primary: #0A84FF;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        
-        .apple-font {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        .section-header {
-            font-size: 2.25rem;
-            line-height: 1.1;
-            font-weight: 600;
-            letter-spacing: -0.025em;
-        }
-
-        .glass {
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .metric-card {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                       box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .nav-active {
-            color: white;
-            position: relative;
-        }
-        
-        .nav-active:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #0A84FF;
-        }
-
-        .data-table {
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        
-        .data-table th {
-            background: #18181b;
-            font-weight: 500;
-        }
-
-        .chart-container {
-            position: relative;
-        }
-
-        .modal {
-            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .premium-shadow {
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-                        0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
+        body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .section-header { font-size: 1.85rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.025em; }
+        @media (min-width: 768px) { .section-header { font-size: 2.1rem; } }
+        .metric-card { transition: transform 0.2s ease; }
+        .competitor-card { transition: all 0.2s ease; }
+        .modal { animation: modalPop 0.2s ease-out forwards; }
+        @keyframes modalPop { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .touch-target { min-height: 48px; min-width: 48px; }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
+
     <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
-                <div class="flex items-center gap-x-3">
-                    <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-building text-zinc-950 text-3xl"></i>
-                    </div>
-                    <div>
-                        <span class="font-semibold text-2xl tracking-tight">Анализ 2026</span>
-                        <span class="text-xs text-zinc-500 block -mt-1">Тамбов • Недвижимость</span>
-                    </div>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-5 flex items-center justify-between h-16">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center">
+                    <i class="fa-solid fa-building text-zinc-950 text-3xl"></i>
                 </div>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="#overview" class="hover:text-white transition-colors">Обзор рынка</a>
-                    <a href="#competitors" class="hover:text-white transition-colors">Конкуренты</a>
-                    <a href="#research" class="hover:text-white transition-colors">Исследования</a>
-                    <a href="#risks" class="hover:text-white transition-colors">Риски</a>
-                    <a href="#recommendations" class="hover:text-white transition-colors">Рекомендации</a>
-                </div>
-
-                <div class="flex items-center gap-x-3">
-                    <button onclick="downloadPDF()" 
-                            class="hidden md:flex items-center gap-x-2 px-5 py-2 text-sm font-medium bg-white text-zinc-950 rounded-3xl hover:bg-zinc-100 transition-all active:scale-[0.985]">
-                        <i class="fa-solid fa-download mr-2"></i>
-                        <span>Скачать PDF</span>
-                    </button>
-                    
-                    <!-- Mobile menu button -->
-                    <button id="mobile-menu-btn"
-                            class="md:hidden w-10 h-10 flex items-center justify-center text-xl hover:bg-zinc-900 rounded-2xl transition-colors">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
+                <div>
+                    <span class="font-semibold text-2xl tracking-tight">Анализ 2026</span>
                 </div>
             </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-x-7 text-sm font-medium">
+                <a href="#century21" class="hover:text-white">Century 21</a>
+                <a href="#finance" class="hover:text-white">Финансы</a>
+                <a href="#competitors" class="hover:text-white">Конкуренты</a>
+                <a href="#marketing" class="hover:text-white">Маркетинг</a>
+                <a href="#analysis" class="hover:text-white">Стратегия</a>
+                <a href="#risks" class="hover:text-white">Риски</a>
+                <a href="#recommendations" class="hover:text-white">Рекомендации</a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" 
+                    class="md:hidden w-11 h-11 flex items-center justify-center text-2xl hover:bg-zinc-900 rounded-2xl transition-colors touch-target">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO -->
     <header class="pt-16 bg-zinc-950">
-        <div class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
+        <div class="max-w-5xl mx-auto px-5 pt-12 pb-16 text-center">
             <div class="inline-flex items-center gap-x-2 bg-zinc-900 border border-zinc-800 rounded-3xl px-4 py-1.5 mb-6">
                 <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span class="text-sm font-medium text-emerald-400">Актуально на 2026 год</span>
+                <span class="text-sm font-medium text-emerald-400">Июнь 2026</span>
             </div>
             
-            <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-6">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
                 Рынок недвижимости<br>
                 <span class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Тамбова 2026</span>
             </h1>
             
-            <p class="max-w-2xl mx-auto text-xl text-zinc-400 mb-10">
-                Полный организационно-экономический и маркетинговый анализ агентств недвижимости 
-                г. Тамбова и Тамбовской области
+            <p class="max-w-md mx-auto text-lg text-zinc-400 mb-8">
+                Полный анализ агентств недвижимости с фокусом на Century 21 Адрес
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="document.getElementById('overview').scrollIntoView({ behavior: 'smooth' })" 
-                        class="px-8 py-4 bg-white text-zinc-950 font-semibold rounded-3xl flex items-center justify-center gap-x-3 hover:bg-zinc-100 transition-all text-lg active:scale-[0.985]">
-                    <span>Начать анализ</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+            <div class="flex flex-col gap-3 px-2">
+                <button onclick="document.getElementById('century21').scrollIntoView({behavior:'smooth'})" 
+                        class="w-full md:w-auto px-8 py-4 bg-white text-zinc-950 font-semibold rounded-3xl text-lg active:scale-[0.985] transition-all">
+                    Анализ Century 21
                 </button>
-                <button onclick="document.getElementById('research').scrollIntoView({ behavior: 'smooth' })" 
-                        class="px-8 py-4 border border-zinc-700 hover:bg-zinc-900 font-medium rounded-3xl flex items-center justify-center gap-x-3 transition-all text-lg">
-                    <span>Смотреть исследования</span>
+                <button onclick="document.getElementById('competitors').scrollIntoView({behavior:'smooth'})" 
+                        class="w-full md:w-auto px-8 py-4 border border-zinc-700 hover:bg-zinc-900 font-medium rounded-3xl text-lg active:scale-[0.985] transition-all">
+                    Сравнение конкурентов
                 </button>
-            </div>
-            
-            <div class="mt-16 flex justify-center gap-x-8 text-sm">
-                <div class="flex items-center gap-x-2 text-zinc-400">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <span>6 компаний проанализировано</span>
-                </div>
-                <div class="flex items-center gap-x-2 text-zinc-400">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <span>Более 40 респондентов</span>
-                </div>
             </div>
         </div>
     </header>
 
-    <!-- Key Metrics -->
-    <section id="overview" class="max-w-7xl mx-auto px-6 pb-16">
-        <div class="mb-10">
-            <h2 class="section-header">Ключевые показатели рынка</h2>
-            <p class="text-zinc-400 mt-2">Динамика 2017–2025 гг. и состояние на начало 2026 года</p>
-        </div>
+    <!-- MARKET OVERVIEW -->
+    <section class="max-w-7xl mx-auto px-5 pb-12">
+        <h2 class="section-header mb-6">Обзор рынка</h2>
         
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-                <div class="text-emerald-400 text-sm font-medium mb-1">АГЕНТСТВ В 2025</div>
-                <div class="text-5xl font-semibold tabular-nums">65</div>
-                <div class="text-xs text-zinc-500 mt-2">+30% за 8 лет</div>
+        <div class="grid grid-cols-2 gap-3 mb-8">
+            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-emerald-400 text-xs">Агентств на рынке</div>
+                <div class="text-4xl font-semibold mt-1">65</div>
+                <div class="text-xs text-zinc-500 mt-1">+30% за 8 лет</div>
             </div>
-            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-                <div class="text-emerald-400 text-sm font-medium mb-1">СРЕДНЯЯ КОМИССИЯ</div>
-                <div class="text-5xl font-semibold tabular-nums">3.5<span class="text-3xl">%</span></div>
-                <div class="text-xs text-zinc-500 mt-2">+1 п.п. с 2017 года</div>
+            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-emerald-400 text-xs">Средняя комиссия</div>
+                <div class="text-4xl font-semibold mt-1">3.5<span class="text-2xl">%</span></div>
             </div>
-            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-                <div class="text-emerald-400 text-sm font-medium mb-1">ОПТИМАЛЬНАЯ ЦЕНА (PSM)</div>
-                <div class="text-5xl font-semibold tabular-nums">3.33<span class="text-3xl">%</span></div>
-                <div class="text-xs text-zinc-500 mt-2">Диапазон 1.79–4.75%</div>
+            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-emerald-400 text-xs">Оптимальная комиссия</div>
+                <div class="text-4xl font-semibold mt-1">3.33<span class="text-2xl">%</span></div>
             </div>
-            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-                <div class="text-emerald-400 text-sm font-medium mb-1">РИСК БАНКРОТСТВА</div>
-                <div class="text-5xl font-semibold tabular-nums text-amber-400">Низкий</div>
-                <div class="text-xs text-zinc-500 mt-2">Z-score Альтмана &gt; 8.0</div>
-            </div>
-        </div>
-
-        <!-- Commission Dynamics Chart -->
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h3 class="font-semibold text-xl">Динамика комиссий за услуги (2017–2025)</h3>
-                    <p class="text-sm text-zinc-400">Продажа квартир, % от стоимости объекта</p>
-                </div>
-                <div class="text-xs px-3 py-1 bg-zinc-800 rounded-2xl text-zinc-400">Тамбов</div>
-            </div>
-            <div class="h-80">
-                <canvas id="commissionChart"></canvas>
+            <div class="metric-card bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-emerald-400 text-xs">Z-score лидеров</div>
+                <div class="text-4xl font-semibold mt-1 text-emerald-400">12.02</div>
             </div>
         </div>
     </section>
 
-    <!-- Competitors Section -->
-    <section id="competitors" class="max-w-7xl mx-auto px-6 py-16 border-t border-zinc-800">
-        <div class="mb-10">
-            <h2 class="section-header">Конкурентный ландшафт</h2>
-            <p class="text-zinc-400">Сравнительный анализ 6 ключевых игроков рынка Тамбова</p>
+    <!-- CENTURY 21 -->
+    <section id="century21" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <div class="mb-8">
+            <span class="px-4 py-1 bg-emerald-900/30 text-emerald-400 text-xs font-medium rounded-2xl">ГЛАВНЫЙ ОБЪЕКТ АНАЛИЗА</span>
+            <h2 class="section-header mt-3">ООО «Century 21 Адрес»</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Company Cards -->
-            <div onclick="showCompanyModal('century21')" class="cursor-pointer group bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all rounded-3xl p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <div class="font-semibold text-xl">CENTURY 21 Адрес</div>
-                        <div class="text-emerald-400 text-sm">Лидер рынка • Сильная позиция</div>
-                    </div>
-                    <i class="fa-solid fa-tachometer-alt text-3xl text-emerald-400 group-hover:scale-110 transition-transform"></i>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-4 text-sm">Финансовые показатели 2025</h4>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between"><span>Выручка</span><span class="font-mono">5.31 млн ₽</span></div>
+                    <div class="flex justify-between"><span>Чистая прибыль</span><span class="font-mono">1.12 млн ₽</span></div>
+                    <div class="flex justify-between"><span>Рентабельность</span><span class="font-mono">21.1%</span></div>
                 </div>
-                <div class="text-sm text-zinc-400 line-clamp-3">Международный бренд + 20+ лет опыта. Сильная цифровизация, партнёрства с застройщиками, высокая финансовая устойчивость.</div>
-                <div class="mt-6 flex items-center justify-between text-xs">
-                    <div class="px-3 py-1 bg-emerald-900/30 text-emerald-400 rounded-2xl">Z-score: 12.0</div>
-                    <div class="text-zinc-500">→ Подробнее</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-emerald-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-2 text-sm">Финансовая устойчивость</h4>
+                <div class="text-center py-2">
+                    <div class="text-6xl font-semibold text-emerald-400">12.02</div>
+                    <div class="text-emerald-400 text-sm">Z-score Альтмана</div>
+                    <div class="mt-2 text-xs px-3 py-1 bg-emerald-900/30 text-emerald-400 inline-block rounded-2xl">Очень низкий риск</div>
                 </div>
             </div>
 
-            <div onclick="showCompanyModal('soyuz')" class="cursor-pointer group bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all rounded-3xl p-6">
-                <div class="flex justify-between items-start mb-4">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-3 text-sm">Преимущества</h4>
+                <ul class="text-sm space-y-2">
+                    <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> Международный бренд</li>
+                    <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> Высокая цифровизация</li>
+                    <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> Юридическая поддержка</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINANCE -->
+    <section id="finance" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <h2 class="section-header mb-6">Финансовый анализ</h2>
+        
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 overflow-x-auto">
+            <h3 class="font-semibold mb-4 text-sm">Сравнение компаний (2025)</h3>
+            <table class="w-full text-sm min-w-[600px]">
+                <thead>
+                    <tr class="border-b border-zinc-700 text-left text-zinc-400 text-xs">
+                        <th class="py-3 pr-4">Показатель</th>
+                        <th class="py-3 px-2">C21</th>
+                        <th class="py-3 px-2">Союз</th>
+                        <th class="py-3 px-2">Доверие</th>
+                        <th class="py-3 px-2">Усадьба</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800 text-xs">
+                    <tr><td class="py-3 pr-4 font-medium">Выручка, млн ₽</td><td class="px-2 font-semibold">5.31</td><td class="px-2">4.12</td><td class="px-2">2.87</td><td class="px-2">1.95</td></tr>
+                    <tr><td class="py-3 pr-4 font-medium">Z-score</td><td class="px-2 font-semibold text-emerald-400">12.02</td><td class="px-2 text-amber-400">2.14</td><td class="px-2 text-rose-400">0.08</td><td class="px-2">4.87</td></tr>
+                    <tr><td class="py-3 pr-4 font-medium">Рентабельность</td><td class="px-2 font-semibold">21.1%</td><td class="px-2">16.5%</td><td class="px-2 text-rose-400">-14.3%</td><td class="px-2">14.9%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- COMPETITORS + FILTERS -->
+    <section id="competitors" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <div class="mb-6">
+            <h2 class="section-header">Конкуренты</h2>
+            <p class="text-zinc-400 text-sm mt-1">Нажмите на карточку для деталей</p>
+        </div>
+
+        <!-- Mobile-friendly filters -->
+        <div class="flex gap-2 overflow-x-auto pb-3 mb-4 scrollbar-hide">
+            <button onclick="filterCompetitors('all', this)" class="filter-btn active whitespace-nowrap px-5 py-2 text-sm rounded-2xl bg-white text-zinc-950">Все</button>
+            <button onclick="filterCompetitors('low', this)" class="filter-btn whitespace-nowrap px-5 py-2 text-sm rounded-2xl bg-zinc-900 border border-zinc-700">Низкий риск</button>
+            <button onclick="filterCompetitors('medium', this)" class="filter-btn whitespace-nowrap px-5 py-2 text-sm rounded-2xl bg-zinc-900 border border-zinc-700">Средний риск</button>
+            <button onclick="filterCompetitors('high', this)" class="filter-btn whitespace-nowrap px-5 py-2 text-sm rounded-2xl bg-zinc-900 border border-zinc-700">Высокий риск</button>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4" id="competitorsGrid">
+            <!-- Cards -->
+            <div onclick="showCompanyModal('century21')" class="competitor-card cursor-pointer bg-zinc-900 border border-emerald-800 rounded-3xl p-6 active:scale-[0.985]" data-risk="low">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold text-xl">Century 21 Адрес</div>
+                        <div class="text-emerald-400 text-xs">Лидер рынка</div>
+                    </div>
+                    <span class="text-emerald-400 text-xs px-3 py-1 bg-emerald-900/30 rounded-2xl">Z: 12.02</span>
+                </div>
+            </div>
+
+            <div onclick="showCompanyModal('soyuz')" class="competitor-card cursor-pointer bg-zinc-900 border border-zinc-800 rounded-3xl p-6 active:scale-[0.985]" data-risk="medium">
+                <div class="flex justify-between items-start">
                     <div>
                         <div class="font-semibold text-xl">Союз Застройщиков</div>
-                        <div class="text-amber-400 text-sm">Средний игрок • Ниша новостроек</div>
+                        <div class="text-amber-400 text-xs">Средний игрок</div>
                     </div>
-                    <i class="fa-solid fa-building text-3xl text-amber-400 group-hover:scale-110 transition-transform"></i>
-                </div>
-                <div class="text-sm text-zinc-400 line-clamp-3">Специализация на первичном рынке. Хорошая репутация, но низкая финансовая устойчивость и зависимость от застройщиков.</div>
-                <div class="mt-6 flex items-center justify-between text-xs">
-                    <div class="px-3 py-1 bg-amber-900/30 text-amber-400 rounded-2xl">Z-score: ~2.1</div>
-                    <div class="text-zinc-500">→ Подробнее</div>
+                    <span class="text-amber-400 text-xs px-3 py-1 bg-amber-900/30 rounded-2xl">Z: 2.14</span>
                 </div>
             </div>
 
-            <div onclick="showCompanyModal('doverie')" class="cursor-pointer group bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all rounded-3xl p-6">
-                <div class="flex justify-between items-start mb-4">
+            <div onclick="showCompanyModal('doverie')" class="competitor-card cursor-pointer bg-zinc-900 border border-zinc-800 rounded-3xl p-6 active:scale-[0.985]" data-risk="high">
+                <div class="flex justify-between items-start">
                     <div>
                         <div class="font-semibold text-xl">ООО «Доверие»</div>
-                        <div class="text-rose-400 text-sm">Микробизнес • Высокий риск</div>
+                        <div class="text-rose-400 text-xs">Высокий риск</div>
                     </div>
-                    <i class="fa-solid fa-exclamation-triangle text-3xl text-rose-400 group-hover:scale-110 transition-transform"></i>
-                </div>
-                <div class="text-sm text-zinc-400 line-clamp-3">Низкая финансовая устойчивость, отрицательный капитал, проблемы с ликвидностью. Требуется срочное оздоровление.</div>
-                <div class="mt-6 flex items-center justify-between text-xs">
-                    <div class="px-3 py-1 bg-rose-900/30 text-rose-400 rounded-2xl">Z-score: 0.08</div>
-                    <div class="text-zinc-500">→ Подробнее</div>
+                    <span class="text-rose-400 text-xs px-3 py-1 bg-rose-900/30 rounded-2xl">Z: 0.08</span>
                 </div>
             </div>
-        </div>
-        
-        <div class="text-center mt-8">
-            <button onclick="showAllCompanies()" 
-                    class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 rounded-3xl flex items-center gap-x-2 mx-auto">
-                <span>Показать всех 6 конкурентов</span>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
         </div>
     </section>
 
-    <!-- Marketing Research -->
-    <section id="research" class="max-w-7xl mx-auto px-6 py-16 border-t border-zinc-800">
-        <div class="mb-10">
-            <h2 class="section-header">Маркетинговые исследования</h2>
-            <p class="text-zinc-400">Глубокий анализ поведения клиентов и стратегическое позиционирование</p>
+    <!-- MARKETING + TABS -->
+    <section id="marketing" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <h2 class="section-header mb-6">Маркетинговые исследования</h2>
+
+        <!-- Tabs -->
+        <div class="flex overflow-x-auto gap-1 border-b border-zinc-800 mb-5 pb-1 scrollbar-hide">
+            <button onclick="switchTab(this, 'tab-cluster')" class="tab-btn active whitespace-nowrap px-5 py-3 text-sm font-medium border-b-2 border-white">Кластеры</button>
+            <button onclick="switchTab(this, 'tab-psm')" class="tab-btn whitespace-nowrap px-5 py-3 text-sm font-medium text-zinc-400">PSM</button>
+            <button onclick="switchTab(this, 'tab-vals')" class="tab-btn whitespace-nowrap px-5 py-3 text-sm font-medium text-zinc-400">VALS-2</button>
+            <button onclick="switchTab(this, 'tab-adl')" class="tab-btn whitespace-nowrap px-5 py-3 text-sm font-medium text-zinc-400">ADL</button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            <!-- Cluster Analysis -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                <h3 class="font-semibold mb-4 flex items-center gap-x-2">
-                    <i class="fa-solid fa-users text-indigo-400"></i>
-                    <span>Кластерный анализ клиентов</span>
-                </h3>
-                <div class="h-72">
-                    <canvas id="clusterChart"></canvas>
-                </div>
-                <div class="mt-4 text-xs text-zinc-400">
-                    5 сегментов выявлено. Ядро рынка — «активные прагматичные пользователи» (60% пользовались услугами).
+        <div id="tab-cluster" class="tab-content">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h3 class="font-semibold mb-4">Кластерный анализ клиентов</h3>
+                <div class="h-72"><canvas id="clusterChart"></canvas></div>
+            </div>
+        </div>
+
+        <div id="tab-psm" class="tab-content hidden">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h3 class="font-semibold mb-4">PSM-анализ</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between"><span>Слишком дёшево</span><span class="font-mono">1.79%</span></div>
+                    <div class="flex justify-between text-emerald-400 font-semibold"><span>Оптимальная цена</span><span class="font-mono text-xl">3.33%</span></div>
+                    <div class="flex justify-between"><span>Слишком дорого</span><span class="font-mono">4.75%</span></div>
                 </div>
             </div>
+        </div>
 
-            <!-- PSM Analysis -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                <h3 class="font-semibold mb-4 flex items-center gap-x-2">
-                    <i class="fa-solid fa-tags text-indigo-400"></i>
-                    <span>PSM-анализ (чувствительность к цене)</span>
-                </h3>
-                <div class="space-y-4 text-sm">
-                    <div class="flex justify-between items-center">
-                        <div>Слишком дёшево</div>
-                        <div class="font-mono font-semibold">1.79%</div>
-                    </div>
-                    <div class="flex justify-between items-center text-emerald-400">
-                        <div><strong>Оптимальная цена (OPP)</strong></div>
-                        <div class="font-mono font-semibold text-xl">3.33%</div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div>Слишком дорого</div>
-                        <div class="font-mono font-semibold">4.75%</div>
-                    </div>
-                </div>
-                <div class="mt-6 text-xs bg-zinc-950 p-3 rounded-2xl">
-                    Клиенты Тамбова готовы платить 2.8–3.3% при полной прозрачности и юридической проверке.
-                </div>
-            </div>
-
-            <!-- VALS -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+        <div id="tab-vals" class="tab-content hidden">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
                 <h3 class="font-semibold mb-4">Психографический портрет (VALS-2)</h3>
-                <div class="h-64">
-                    <canvas id="valsChart"></canvas>
-                </div>
+                <div class="h-72"><canvas id="valsChart"></canvas></div>
             </div>
+        </div>
 
-            <!-- ADL Matrix -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                <h3 class="font-semibold mb-4">Матрица ADL (Arthur D. Little)</h3>
-                <div class="flex justify-center">
-                    <div class="relative w-80 h-80 border border-zinc-700 rounded-3xl p-4">
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-emerald-400 rounded-full shadow-[0_0_0_8px_rgba(52,211,153,0.2)]"></div>
-                        <div class="text-center mt-16">
-                            <div class="text-emerald-400 font-semibold">Сильная позиция</div>
-                            <div class="text-xs text-zinc-400">Стадия зрелости рынка</div>
-                            <div class="mt-2 text-xs px-4 py-1 bg-emerald-900/30 text-emerald-400 rounded-2xl inline-block">Стратегия: Удержание позиции</div>
-                        </div>
-                    </div>
+        <div id="tab-adl" class="tab-content hidden">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-center py-10">
+                <div class="inline-block px-6 py-4 bg-emerald-900/30 text-emerald-400 rounded-3xl">
+                    <div class="font-semibold">Сильная позиция + Стадия зрелости</div>
+                    <div class="text-xs mt-1">Стратегия: Удержание + умеренный рост</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Risks Section -->
-    <section id="risks" class="max-w-7xl mx-auto px-6 py-16 border-t border-zinc-800">
-        <div class="mb-10">
-            <h2 class="section-header">Оценка рисков и финансовая устойчивость</h2>
-        </div>
+    <!-- STRATEGIC + RISKS + RECOMMENDATIONS -->
+    <section id="analysis" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <h2 class="section-header mb-6">Стратегический анализ</h2>
         
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-            <h3 class="font-semibold mb-6">Z-score Альтмана (четырёхфакторная модель)</h3>
-            <div class="h-80">
-                <canvas id="zscoreChart"></canvas>
-            </div>
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div class="bg-zinc-950 p-4 rounded-2xl">
-                    <div class="text-emerald-400">2022 год — пик устойчивости</div>
-                    <div class="font-mono text-2xl font-semibold">15.27</div>
-                </div>
-                <div class="bg-zinc-950 p-4 rounded-2xl">
-                    <div class="text-amber-400">2023–2024 — временное ухудшение</div>
-                    <div class="font-mono text-2xl font-semibold">8.09 – 8.12</div>
-                </div>
-                <div class="bg-zinc-950 p-4 rounded-2xl">
-                    <div class="text-emerald-400">2025 — восстановление</div>
-                    <div class="font-mono text-2xl font-semibold">12.02</div>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h3 class="font-semibold mb-4">SWOT Century 21</h3>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div><span class="text-emerald-400 font-medium">Сильные стороны</span><br>Бренд, цифровизация, юридическая поддержка</div>
+                    <div><span class="text-rose-400 font-medium">Слабые стороны</span><br>Зависимость от ипотеки</div>
+                    <div><span class="text-sky-400 font-medium">Возможности</span><br>Рост ипотечных программ</div>
+                    <div><span class="text-amber-400 font-medium">Угрозы</span><br>Ужесточение ипотеки</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Recommendations -->
-    <section id="recommendations" class="max-w-7xl mx-auto px-6 py-16 border-t border-zinc-800">
-        <div class="max-w-3xl">
-            <h2 class="section-header mb-6">Стратегические рекомендации на 2026 год</h2>
-            
-            <div class="space-y-6">
-                <div class="flex gap-x-4">
-                    <div class="w-8 h-8 flex-shrink-0 bg-white text-zinc-950 rounded-2xl flex items-center justify-center font-bold">1</div>
-                    <div>
-                        <div class="font-semibold">Срочная цифровизация</div>
-                        <div class="text-zinc-400 text-sm">Создать современный сайт, виртуальные туры, интеграцию с ЦИАН/Авито/Домклик и CRM-систему (amoCRM / Битрикс24).</div>
-                    </div>
-                </div>
-                <div class="flex gap-x-4">
-                    <div class="w-8 h-8 flex-shrink-0 bg-white text-zinc-950 rounded-2xl flex items-center justify-center font-bold">2</div>
-                    <div>
-                        <div class="font-semibold">Фокус на юридической безопасности</div>
-                        <div class="text-zinc-400 text-sm">Продвигать услугу как «полная юридическая проверка + сопровождение под ключ» — главная боль клиентов Тамбова.</div>
-                    </div>
-                </div>
-                <div class="flex gap-x-4">
-                    <div class="w-8 h-8 flex-shrink-0 bg-white text-zinc-950 rounded-2xl flex items-center justify-center font-bold">3</div>
-                    <div>
-                        <div class="font-semibold">Масштабирование команды</div>
-                        <div class="text-zinc-400 text-sm">Привлекать агентов на процент. Для микробизнеса это критически важно для роста оборота.</div>
-                    </div>
-                </div>
-                <div class="flex gap-x-4">
-                    <div class="w-8 h-8 flex-shrink-0 bg-white text-zinc-950 rounded-2xl flex items-center justify-center font-bold">4</div>
-                    <div>
-                        <div class="font-semibold">Работа с госпрограммами</div>
-                        <div class="text-zinc-400 text-sm">Семейная ипотека 6%, сельская ипотека, сертификаты — основной драйвер спроса в регионе.</div>
-                    </div>
-                </div>
+    <section id="risks" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <h2 class="section-header mb-6">Риски и банкротство</h2>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+            <h3 class="font-semibold mb-4">Z-score Альтмана</h3>
+            <div class="h-72"><canvas id="zscoreCompareChart"></canvas></div>
+        </div>
+    </section>
+
+    <section id="recommendations" class="max-w-7xl mx-auto px-5 py-12 border-t border-zinc-800">
+        <h2 class="section-header mb-6">Рекомендации 2026–2027</h2>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-2">1. Цифровизация</h4>
+                <p class="text-sm text-zinc-400">Сайт, виртуальные туры, CRM-система.</p>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-2">2. Ценообразование</h4>
+                <p class="text-sm text-zinc-400">Гибкая комиссия 2.8–3.5% (оптимум 3.33%).</p>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                <h4 class="font-semibold mb-2">3. География</h4>
+                <p class="text-sm text-zinc-400">Развитие загородной недвижимости и районов области.</p>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-zinc-800 py-12 text-center text-xs text-zinc-500">
-        Практическая работа • Анализ агентств недвижимости г. Тамбова и Тамбовской области • 2026<br>
-        Данные собраны из открытых источников, бухгалтерской отчётности и маркетинговых исследований (n=41+)
+    <footer class="border-t border-zinc-800 py-8 text-center text-xs text-zinc-500 px-5">
+        Практическая работа • Анализ рынка недвижимости Тамбова • 2026
     </footer>
 
-    <!-- Company Modal -->
-    <div id="companyModal" onclick="if (event.target.id === 'companyModal') hideCompanyModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
-        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto">
-            <div class="p-8" id="modalContent">
-                <!-- Dynamic content injected via JS -->
-            </div>
+    <!-- MODALS -->
+    <div id="companyModal" onclick="if (event.target.id === 'companyModal') hideCompanyModal()" 
+         class="hidden fixed inset-0 bg-black/70 z-[100] flex items-end md:items-center justify-center p-0 md:p-4">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-zinc-900 border border-zinc-700 rounded-t-3xl md:rounded-3xl w-full md:max-w-2xl md:mx-auto max-h-[85vh] overflow-auto p-6 modal">
+            <div id="modalContent"></div>
         </div>
     </div>
 
     <script>
-        // Tailwind script
-        function initializeTailwind() {
-            document.documentElement.style.setProperty('--accent', '#0A84FF');
+        function initTailwind() {
+            const originalWarn = console.warn;
+            console.warn = (...args) => {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+                originalWarn.apply(console, args);
+            };
         }
 
-        // Mobile menu
-        function initMobileMenu() {
-            const btn = document.getElementById('mobile-menu-btn');
-            if (!btn) return;
+        let charts = {};
 
-            btn.addEventListener('click', () => {
-                const menu = document.createElement('div');
-                menu.className = 'fixed inset-0 bg-zinc-950 z-[200] p-6 md:hidden';
-                menu.innerHTML = `
-                    <div class="flex justify-between items-center mb-8">
-                        <div class="flex items-center gap-x-3">
-                            <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center">
-                                <i class="fa-solid fa-building text-zinc-950 text-3xl"></i>
-                            </div>
-                            <span class="font-semibold text-2xl">Анализ 2026</span>
-                        </div>
-                        <button class="text-3xl">&times;</button>
-                    </div>
-                    <div class="flex flex-col gap-y-4 text-xl">
-                        <a href="#overview" class="py-3 border-b border-zinc-800">Обзор рынка</a>
-                        <a href="#competitors" class="py-3 border-b border-zinc-800">Конкуренты</a>
-                        <a href="#research" class="py-3 border-b border-zinc-800">Исследования</a>
-                        <a href="#risks" class="py-3 border-b border-zinc-800">Риски</a>
-                        <a href="#recommendations" class="py-3">Рекомендации</a>
-                    </div>
-                `;
-                document.body.appendChild(menu);
-                
-                menu.querySelector('button').onclick = () => menu.remove();
-                menu.querySelectorAll('a').forEach(a => {
-                    a.onclick = () => {
-                        menu.remove();
-                        const target = document.querySelector(a.getAttribute('href'));
-                        if (target) target.scrollIntoView({ behavior: 'smooth' });
-                    };
-                });
-            });
-        }
-
-        // Charts
-        let commissionChartInstance = null;
-        let clusterChartInstance = null;
-        let valsChartInstance = null;
-        let zscoreChartInstance = null;
-
-        function createCommissionChart() {
-            const ctx = document.getElementById('commissionChart');
-            if (!ctx) return;
-
-            if (commissionChartInstance) commissionChartInstance.destroy();
-
-            commissionChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
-                    datasets: [{
-                        label: 'Комиссия за продажу квартиры (%)',
-                        data: [2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.5],
-                        borderColor: '#0A84FF',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        backgroundColor: 'rgba(10, 132, 255, 0.1)',
-                        pointBackgroundColor: '#0A84FF',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { mode: 'index', intersect: false }
-                    },
-                    scales: {
-                        y: { 
-                            beginAtZero: true, 
-                            max: 4,
-                            grid: { color: '#27272a' },
-                            ticks: { color: '#71717a', callback: v => v + '%' }
-                        },
-                        x: { grid: { color: '#27272a' }, ticks: { color: '#71717a' } }
-                    }
-                }
-            });
-        }
-
-        function createClusterChart() {
-            const ctx = document.getElementById('clusterChart');
-            if (!ctx) return;
-
-            if (clusterChartInstance) clusterChartInstance.destroy();
-
-            clusterChartInstance = new Chart(ctx, {
+        function createCharts() {
+            charts.cluster = new Chart(document.getElementById('clusterChart'), {
                 type: 'bar',
-                data: {
-                    labels: ['Кластер 1\n(молодые женщины)', 'Кластер 2\n(критичные)', 'Кластер 3\n(обеспеченные)', 'Кластер 4\n(опытные)', 'Кластер 5\n(прагматики)'],
-                    datasets: [{
-                        label: 'Удовлетворённость (1-5)',
-                        data: [3.5, 2.1, 4.2, 3.9, 4.0],
-                        backgroundColor: ['#0A84FF', '#f43f5e', '#10b981', '#8b5cf6', '#f59e0b'],
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, max: 5, grid: { color: '#27272a' }, ticks: { color: '#71717a' } },
-                        x: { grid: { color: '#27272a' }, ticks: { color: '#71717a', font: { size: 10 } } }
-                    }
-                }
+                data: { labels: ['Молодые семьи','Инвесторы','Пенсионеры','Молодёжь','Семьи с детьми'], datasets: [{ data: [3.8,2.9,1.8,4.1,3.5], backgroundColor: '#0A84FF' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
-        }
 
-        function createVALSChart() {
-            const ctx = document.getElementById('valsChart');
-            if (!ctx) return;
-
-            if (valsChartInstance) valsChartInstance.destroy();
-
-            valsChartInstance = new Chart(ctx, {
+            charts.vals = new Chart(document.getElementById('valsChart'), {
                 type: 'doughnut',
-                data: {
-                    labels: ['Believers (Верующие)', 'Thinkers (Мыслители)', 'Achievers (Достигаторы)', 'Strivers (Стриверы)', 'Experiencers'],
-                    datasets: [{
-                        data: [29, 22, 24, 15, 10],
-                        backgroundColor: ['#0A84FF', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { color: '#a1a1aa', padding: 20, usePointStyle: true }
-                        }
-                    }
-                }
+                data: { labels: ['Believers','Thinkers','Achievers','Strivers','Experiencers'], datasets: [{ data: [29,22,24,15,10], backgroundColor: ['#0A84FF','#10b981','#f59e0b','#8b5cf6','#ec4899'] }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '65%' }
+            });
+
+            charts.zscoreCompare = new Chart(document.getElementById('zscoreCompareChart'), {
+                type: 'bar',
+                data: { labels: ['Century 21','Союз','Доверие','Усадьба'], datasets: [{ data: [12.02,2.14,0.08,4.87], backgroundColor: ['#10b981','#f59e0b','#ef4444','#0A84FF'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
         }
 
-        function createZScoreChart() {
-            const ctx = document.getElementById('zscoreChart');
-            if (!ctx) return;
+        function switchTab(element, tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active', 'border-b-2', 'border-white'));
+            element.classList.add('active', 'border-b-2', 'border-white');
+        }
 
-            if (zscoreChartInstance) zscoreChartInstance.destroy();
+        function filterCompetitors(type, btn) {
+            const cards = document.querySelectorAll('.competitor-card');
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'bg-white', 'text-zinc-950'));
+            btn.classList.add('active', 'bg-white', 'text-zinc-950');
 
-            zscoreChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['2021', '2022', '2023', '2024', '2025'],
-                    datasets: [{
-                        label: 'Z-score Альтмана',
-                        data: [11.41, 15.27, 8.12, 8.09, 12.02],
-                        borderColor: '#10b981',
-                        borderWidth: 3,
-                        tension: 0.3,
-                        pointBackgroundColor: '#10b981',
-                        pointRadius: 6
-                    }, {
-                        label: 'Граница устойчивости (2.6)',
-                        data: [2.6, 2.6, 2.6, 2.6, 2.6],
-                        borderColor: '#f43f5e',
-                        borderDash: [5, 5],
-                        borderWidth: 2,
-                        pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: true, position: 'top' } },
-                    scales: {
-                        y: { grid: { color: '#27272a' }, ticks: { color: '#71717a' } },
-                        x: { grid: { color: '#27272a' }, ticks: { color: '#71717a' } }
-                    }
-                }
+            cards.forEach(card => {
+                if (type === 'all') card.style.display = '';
+                else if (type === card.dataset.risk) card.style.display = '';
+                else card.style.display = 'none';
             });
         }
 
-        // Modals
         function showCompanyModal(company) {
             const modal = document.getElementById('companyModal');
             const content = document.getElementById('modalContent');
-            
             let html = '';
-            
+
             if (company === 'century21') {
-                html = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-3xl font-semibold">CENTURY 21 Адрес</h3>
-                            <p class="text-emerald-400">Лидер • Сильная конкурентная позиция</p>
-                        </div>
-                        <button onclick="hideCompanyModal()" class="text-3xl text-zinc-400 hover:text-white">&times;</button>
-                    </div>
-                    
-                    <div class="mt-8 grid grid-cols-2 gap-4">
-                        <div class="bg-zinc-950 p-4 rounded-2xl">
-                            <div class="text-xs text-zinc-400">Z-score Альтмана 2025</div>
-                            <div class="text-4xl font-semibold text-emerald-400">12.02</div>
-                            <div class="text-xs">Зона финансовой устойчивости</div>
-                        </div>
-                        <div class="bg-zinc-950 p-4 rounded-2xl">
-                            <div class="text-xs text-zinc-400">Опыт на рынке</div>
-                            <div class="text-4xl font-semibold">20+ лет</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8">
-                        <h4 class="font-semibold mb-3">SWOT-анализ</h4>
-                        <div class="grid grid-cols-2 gap-3 text-sm">
-                            <div class="bg-emerald-900/20 border border-emerald-900/30 p-4 rounded-2xl">
-                                <div class="font-medium text-emerald-400 mb-1">Сильные стороны</div>
-                                <ul class="text-xs space-y-1 text-zinc-300">
-                                    <li>• Международный бренд + стандарты</li>
-                                    <li>• Сильная цифровизация (CRM, виртуальные туры)</li>
-                                    <li>• Партнёрства с крупными застройщиками</li>
-                                </ul>
-                            </div>
-                            <div class="bg-rose-900/20 border border-rose-900/30 p-4 rounded-2xl">
-                                <div class="font-medium text-rose-400 mb-1">Слабые стороны</div>
-                                <ul class="text-xs space-y-1 text-zinc-300">
-                                    <li>• Зависимость от франшизы</li>
-                                    <li>• Ограниченность региональным рынком</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                html = `<h3 class="text-2xl font-semibold mb-1">Century 21 Адрес</h3>
+                        <p class="text-emerald-400 mb-5 text-sm">Лидер рынка • Z-score 12.02</p>
+                        <div class="space-y-3 text-sm">
+                            <p><strong>Выручка:</strong> 5.31 млн ₽</p>
+                            <p><strong>Чистая прибыль:</strong> 1.12 млн ₽</p>
+                            <p><strong>Рентабельность:</strong> 21.1%</p>
+                            <p class="pt-2 text-emerald-400">Сильная позиция. Рекомендуется удержание и умеренный рост.</p>
+                        </div>`;
             } else if (company === 'soyuz') {
-                html = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-3xl font-semibold">ООО «Союз Застройщиков»</h3>
-                            <p class="text-amber-400">Средний игрок • Ниша новостроек</p>
-                        </div>
-                        <button onclick="hideCompanyModal()" class="text-3xl text-zinc-400 hover:text-white">&times;</button>
-                    </div>
-                    <div class="mt-6 text-sm text-zinc-400">
-                        Специализируется на первичном рынке. Имеет хорошую репутацию, но страдает от низкой финансовой устойчивости и высокой зависимости от застройщиков.
-                    </div>
-                `;
+                html = `<h3 class="text-2xl font-semibold mb-1">Союз Застройщиков</h3>
+                        <p class="text-amber-400 mb-5 text-sm">Средний игрок • Z-score 2.14</p>
+                        <div class="space-y-3 text-sm">
+                            <p><strong>Выручка:</strong> 4.12 млн ₽</p>
+                            <p><strong>Рентабельность:</strong> 16.5%</p>
+                            <p class="pt-2 text-amber-400">Средняя позиция. Рекомендуется цифровизация и снижение зависимости от застройщиков.</p>
+                        </div>`;
             } else if (company === 'doverie') {
-                html = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-3xl font-semibold">ООО «Доверие»</h3>
-                            <p class="text-rose-400">Высокий риск • Требуется оздоровление</p>
-                        </div>
-                        <button onclick="hideCompanyModal()" class="text-3xl text-zinc-400 hover:text-white">&times;</button>
-                    </div>
-                    <div class="mt-6 p-4 bg-rose-900/10 border border-rose-900/30 rounded-2xl text-sm">
-                        <strong class="text-rose-400">Критические проблемы:</strong><br>
-                        Отрицательный собственный капитал, низкая ликвидность, высокая долговая нагрузка. 
-                        Z-score близок к зоне риска банкротства.
-                    </div>
-                `;
+                html = `<h3 class="text-2xl font-semibold mb-1">ООО «Доверие»</h3>
+                        <p class="text-rose-400 mb-5 text-sm">Высокий риск • Z-score 0.08</p>
+                        <div class="space-y-3 text-sm">
+                            <p><strong>Выручка:</strong> 2.87 млн ₽</p>
+                            <p><strong>Прибыль:</strong> -0.41 млн ₽ (убыток)</p>
+                            <p class="pt-2 text-rose-400 font-medium">Критическое состояние. Требуется срочное финансовое оздоровление.</p>
+                        </div>`;
             }
-            
+
             content.innerHTML = html;
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -720,50 +413,62 @@
             modal.classList.add('hidden');
         }
 
-        function showAllCompanies() {
-            alert('Полная сравнительная таблица всех 6 компаний доступна в PDF-версии отчёта. В веб-версии показаны ключевые игроки.');
+        function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                const menu = document.createElement('div');
+                menu.className = `fixed inset-0 bg-zinc-950 z-[200] p-5 md:hidden`;
+                menu.innerHTML = `
+                    <div class="flex justify-between mb-8">
+                        <div class="flex items-center gap-x-3">
+                            <div class="w-9 h-9 bg-white rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-building text-zinc-950 text-3xl"></i>
+                            </div>
+                            <span class="font-semibold text-2xl">Анализ 2026</span>
+                        </div>
+                        <button class="text-4xl px-3">&times;</button>
+                    </div>
+                    <div class="flex flex-col text-xl gap-y-1">
+                        <a href="#century21" class="py-4 border-b border-zinc-800">Century 21</a>
+                        <a href="#finance" class="py-4 border-b border-zinc-800">Финансы</a>
+                        <a href="#competitors" class="py-4 border-b border-zinc-800">Конкуренты</a>
+                        <a href="#marketing" class="py-4 border-b border-zinc-800">Маркетинг</a>
+                        <a href="#analysis" class="py-4 border-b border-zinc-800">Стратегия</a>
+                        <a href="#risks" class="py-4 border-b border-zinc-800">Риски</a>
+                        <a href="#recommendations" class="py-4">Рекомендации</a>
+                    </div>
+                `;
+                document.body.appendChild(menu);
+                menu.querySelector('button').onclick = () => menu.remove();
+                
+                // Close on link click
+                menu.querySelectorAll('a').forEach(link => {
+                    link.onclick = () => menu.remove();
+                });
+            });
         }
 
-        function downloadPDF() {
-            alert('В реальном проекте здесь будет генерация PDF с полным отчётом. Сейчас вы можете сохранить страницу как PDF через браузер (Ctrl/Cmd + P → Сохранить как PDF).');
-        }
-
-        // Initialize everything
         function init() {
-            initializeTailwind();
+            initTailwind();
+            createCharts();
             initMobileMenu();
-            
-            // Create charts
-            setTimeout(() => {
-                createCommissionChart();
-                createClusterChart();
-                createVALSChart();
-                createZScoreChart();
-            }, 300);
 
-            // Smooth scroll for all anchor links
+            // Smooth scroll
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
                         e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        target.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             });
 
-            // Keyboard escape for modal
-            document.addEventListener('keydown', function(e) {
-                if (e.key === "Escape") {
-                    const modal = document.getElementById('companyModal');
-                    if (!modal.classList.contains('hidden')) {
-                        modal.classList.remove('flex');
-                        modal.classList.add('hidden');
-                    }
-                }
-            });
-
-            console.log('%c[Apple-style Site] Инициализация завершена. Сайт готов к использованию.', 'color:#666');
+            // First tab active
+            const firstTab = document.querySelector('.tab-btn');
+            if (firstTab) firstTab.classList.add('active', 'border-b-2', 'border-white');
         }
 
         window.onload = init;
