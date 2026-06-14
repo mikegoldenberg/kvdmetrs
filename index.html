@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Квадратные метры • Защита проекта</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=SF+Pro+Display:wght@400;500;600&amp;display=swap');
+        
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(148, 163, 184, 0.25);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(255,255,255,0.6) inset;
+        }
+        
+        .glass-light {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .ios-card {
+            border-radius: 28px;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), 
+                        box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .ios-card:active {
+            transform: scale(0.985);
+        }
+        
+        .section-header {
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: #0f172a;
+        }
+        
+        .liquid-bg {
+            background: linear-gradient(145deg, #f0f9ff 0%, #e0f2fe 40%, #f8fafc 100%);
+        }
+        
+        .frutiger-glow {
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.12),
+                        0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+        
+        .nav-active {
+            background: rgba(15, 23, 42, 0.06);
+            border-radius: 9999px;
+        }
+        
+        .metric-value {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .data-table {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .data-table th {
+            background: rgba(241, 245, 249, 0.95);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #334155;
+        }
+        
+        .chart-container {
+            position: relative;
+        }
+        
+        .glass-button {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            color: #0f172a;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .glass-button:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-1px);
+            border-color: rgba(148, 163, 184, 0.5);
+        }
+        
+        .metric-card {
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            background: white;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .ios-shadow {
+            box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.08),
+                        0 0 0 1px rgba(255,255,255,0.7) inset;
+        }
+        
+        .frutiger-orb {
+            animation: floatOrb 8s ease-in-out infinite;
+        }
+        
+        @keyframes floatOrb {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+        
+        .nav-scrolled {
+            background: rgba(248, 250, 252, 0.96);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        
+        .modern-tab {
+            position: relative;
+        }
+        
+        .modern-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
+            border-radius: 999px;
+        }
+        
+        .stat-number {
+            font-feature-settings: "ss02";
+        }
+        
+        .project-gradient {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtle-grid {
+            background-image: 
+                linear-gradient(rgba(15,23,42,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15,23,42,0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Mobile-specific improvements */
+        @media (max-width: 640px) {
+            .section-header {
+                font-size: 24px;
+            }
+            
+            .ios-card {
+                border-radius: 20px;
+            }
+            
+            .glass {
+                backdrop-filter: blur(16px);
+            }
+            
+            .metric-card {
+                padding: 1rem;
+            }
+            
+            table.data-table {
+                font-size: 13px;
+            }
+            
+            .data-table th {
+                font-size: 11px;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <!-- NAV -->
+    <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-5 pt-4 pb-3">
+            <div class="glass rounded-3xl px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-home text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold tracking-tighter text-xl">Квадратные метры</div>
+                        <div class="text-[10px] text-slate-500 -mt-1">Тамбов • 2026</div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-x-2 text-sm">
+                    <a href="#overview" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Обзор</a>
+                    <a href="#industry" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Отрасль</a>
+                    <a href="#competitors" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Конкуренты</a>
+                    <a href="#finance" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Финансы</a>
+                    <a href="#marketing" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Маркетинг</a>
+                    <a href="#risks" class="px-4 py-1.5 rounded-2xl hover:bg-white/10 transition-colors">Риски</a>
+                </div>
+                
+                <div class="flex items-center gap-x-2">
+                    <button onclick="document.getElementById('conclusion').scrollIntoView({ behavior: 'smooth' })" 
+                            class="glass-button text-xs font-medium px-5 py-2 rounded-2xl flex items-center gap-x-2">
+                        <span>Рекомендации</span>
+                    </button>
+                    <button onclick="showTeamModal()" 
+                            class="md:hidden w-9 h-9 flex items-center justify-center glass rounded-2xl">
+                        <i class="fa-solid fa-users text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="pt-20 pb-12 px-5 relative overflow-hidden liquid-bg subtle-grid">
+        <!-- Decorative orbs (Frutiger Aero influence) -->
+        <div class="absolute top-10 right-10 w-64 h-64 rounded-full bg-cyan-500/10 blur-[80px]"></div>
+        <div class="absolute bottom-20 left-5 w-40 h-40 rounded-full bg-blue-500/10 blur-[60px]"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full glass mb-6 text-xs tracking-[2px] font-medium">
+                <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                ПРОЕКТ • 2026
+            </div>
+            
+            <h1 class="text-[42px] leading-[1.05] sm:text-6xl md:text-7xl font-bold tracking-tighter mb-4">
+                Анализ рынка<br>недвижимости<br>
+                <span class="project-gradient">Тамбовской области</span>
+            </h1>
+            
+            <p class="max-w-md mx-auto text-lg sm:text-xl text-slate-600 mb-8">
+                Организационно-экономический анализ и маркетинговые исследования<br>
+                <span class="font-semibold text-slate-800">на примере ООО «Century 21 Адрес»</span>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="document.getElementById('overview').scrollIntoView({ behavior: 'smooth' })" 
+                        class="glass-button px-8 py-4 rounded-3xl font-semibold flex items-center justify-center gap-x-3 text-base active:scale-[0.985] transition-all">
+                    <span>Начать изучение проекта</span>
+                    <i class="fa-solid fa-arrow-down text-sm"></i>
+                </button>
+            </div>
+            
+            <div class="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
+                <div class="flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>192 страницы</span>
+                </div>
+                <div class="flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-table"></i>
+                    <span>23 таблицы</span>
+                </div>
+                <div class="flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-image"></i>
+                    <span>51 рисунок</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERVIEW / ВВЕДЕНИЕ -->
+    <div id="overview" class="max-w-5xl mx-auto px-5 pt-8 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">01 • ВВЕДЕНИЕ</div>
+                <div class="section-header">Актуальность и гипотеза</div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+            <!-- Актуальность -->
+            <div class="md:col-span-7 glass ios-card p-7">
+                <div class="flex items-center gap-x-3 mb-5">
+                    <div class="w-8 h-8 rounded-2xl bg-red-500/20 flex items-center justify-center">
+                        <i class="fa-solid fa-exclamation-triangle text-red-400"></i>
+                    </div>
+                    <div class="font-semibold text-xl">Проблемы отрасли в 2026 году</div>
+                </div>
+                
+                <div class="space-y-4 text-[15px]">
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 flex-shrink-0 mt-0.5 text-cyan-400"><i class="fa-solid fa-check"></i></div>
+                        <div>95% агентств не готовы к технологическим прорывам (РБК Realty)</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 flex-shrink-0 mt-0.5 text-cyan-400"><i class="fa-solid fa-check"></i></div>
+                        <div>Падение выручки на 10–40%, количества сделок на 20%</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 flex-shrink-0 mt-0.5 text-cyan-400"><i class="fa-solid fa-check"></i></div>
+                        <div>Текучесть риелторов до 84% (80–90% новичков увольняются в первый год)</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-6 h-6 flex-shrink-0 mt-0.5 text-cyan-400"><i class="fa-solid fa-check"></i></div>
+                        <div>Высокие комиссии, скрытые платежи, слабый контроль государства</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Гипотеза -->
+            <div class="md:col-span-5 glass ios-card p-7 bg-gradient-to-br from-white/5 to-transparent">
+                <div class="uppercase text-xs tracking-widest font-semibold mb-3 text-emerald-400">ГИПОТЕЗА ИССЛЕДОВАНИЯ</div>
+                <div class="text-[15px] leading-snug">
+                    Внедрение <span class="font-semibold">цифровизации</span>, повышение квалификации риелторов и усиление государственного контроля 
+                    (лицензирование, СРО, прозрачность комиссий) существенно улучшит качество услуг, снизит текучесть кадров и повысит финансовую устойчивость агентств.
+                </div>
+                <div class="mt-6 pt-5 border-t border-slate-200 text-xs flex items-center gap-x-2 text-emerald-400">
+                    <i class="fa-solid fa-check-double"></i>
+                    <span class="font-medium">Гипотеза полностью подтвердилась</span>
+                </div>
+            </div>
+            
+            <!-- Цели и задачи -->
+            <div class="md:col-span-12 glass ios-card p-7">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+                    <div>
+                        <div class="font-semibold mb-2 flex items-center gap-x-2"><i class="fa-solid fa-bullseye text-blue-400"></i> <span>Цель работы</span></div>
+                        <div class="text-sm text-slate-700">Провести организационно-экономический анализ агентств недвижимости, оценить состояние и перспективы развития, провести маркетинговые исследования и предложить меры по минимизации рисков.</div>
+                    </div>
+                    <div>
+                        <div class="font-semibold mb-2">Объект исследования</div>
+                        <div class="text-sm text-slate-700">Агентства недвижимости Тамбовской области (фокус — ООО «Century 21 Адрес»)</div>
+                    </div>
+                    <div>
+                        <div class="font-semibold mb-2">Предмет исследования</div>
+                        <div class="text-sm text-slate-700">Финансовые показатели, конкурентоспособность, маркетинговая деятельность и риски</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INDUSTRY / ОТРАСЛЬ -->
+    <div id="industry" class="max-w-5xl mx-auto px-5 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">02 • ТЕОРЕТИЧЕСКИЕ АСПЕКТЫ</div>
+                <div class="section-header">Состояние отрасли 2017–2025</div>
+            </div>
+        </div>
+        
+        <div class="glass ios-card p-7 mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="text-center p-4">
+                    <div class="text-4xl font-bold tracking-tighter">65</div>
+                    <div class="text-xs text-slate-500 mt-1">агентств в Тамбове (2025)</div>
+                    <div class="text-[10px] text-emerald-400">+30% с 2017 года</div>
+                </div>
+                <div class="text-center p-4">
+                    <div class="text-4xl font-bold tracking-tighter">1500</div>
+                    <div class="text-xs text-slate-500 mt-1">объектов в сделках</div>
+                </div>
+                <div class="text-center p-4">
+                    <div class="text-4xl font-bold tracking-tighter">3.5%</div>
+                    <div class="text-xs text-slate-500 mt-1">средняя комиссия за продажу</div>
+                </div>
+                <div class="text-center p-4">
+                    <div class="text-4xl font-bold tracking-tighter">100%</div>
+                    <div class="text-xs text-slate-500 mt-1">комиссия за аренду (от мес. платы)</div>
+                </div>
+            </div>
+            
+            <!-- Commission dynamics table -->
+            <div class="mb-3 flex items-center justify-between">
+                <div class="font-semibold">Динамика комиссий за услуги (2017–2025)</div>
+                <div class="text-xs px-3 py-1 bg-slate-100 rounded-full">данные на 01.07 каждого года</div>
+            </div>
+            
+            <div class="data-table overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="text-left">
+                            <th class="px-4 py-3 font-normal">Услуга</th>
+                            <th class="px-3 py-3 text-center">2017</th>
+                            <th class="px-3 py-3 text-center">2020</th>
+                            <th class="px-3 py-3 text-center">2023</th>
+                            <th class="px-3 py-3 text-center">2025</th>
+                            <th class="px-3 py-3 text-center text-emerald-400">Δ</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/10 text-sm">
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Продажа квартиры</td>
+                            <td class="px-3 py-3 text-center">2,5%</td>
+                            <td class="px-3 py-3 text-center">2,8%</td>
+                            <td class="px-3 py-3 text-center">3,1%</td>
+                            <td class="px-3 py-3 text-center font-semibold">3,5%</td>
+                            <td class="px-3 py-3 text-center text-emerald-400">+1,0 п.п.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Аренда жилья</td>
+                            <td class="px-3 py-3 text-center">50%</td>
+                            <td class="px-3 py-3 text-center">65%</td>
+                            <td class="px-3 py-3 text-center">80%</td>
+                            <td class="px-3 py-3 text-center font-semibold">100%</td>
+                            <td class="px-3 py-3 text-center text-emerald-400">+50 п.п.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Коммерческая недвижимость</td>
+                            <td class="px-3 py-3 text-center">3%</td>
+                            <td class="px-3 py-3 text-center">3,3%</td>
+                            <td class="px-3 py-3 text-center">3,6%</td>
+                            <td class="px-3 py-3 text-center font-semibold">4%</td>
+                            <td class="px-3 py-3 text-center text-emerald-400">+1 п.п.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Загородная недвижимость</td>
+                            <td class="px-3 py-3 text-center">4%</td>
+                            <td class="px-3 py-3 text-center">4,3%</td>
+                            <td class="px-3 py-3 text-center">4,6%</td>
+                            <td class="px-3 py-3 text-center font-semibold">5%</td>
+                            <td class="px-3 py-3 text-center text-emerald-400">+1 п.п.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium">Юридическое сопровождение</td>
+                            <td class="px-3 py-3 text-center">5 000 ₽</td>
+                            <td class="px-3 py-3 text-center">5 600 ₽</td>
+                            <td class="px-3 py-3 text-center">6 200 ₽</td>
+                            <td class="px-3 py-3 text-center font-semibold">7 000 ₽</td>
+                            <td class="px-3 py-3 text-center text-emerald-400">+40%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-4">Ключевые проблемы 2026 года</div>
+                <div class="space-y-[13px] text-sm">
+                    <div class="flex gap-3"><span class="font-mono text-red-400 w-5">01</span> <span>Необоснованный рост комиссий и скрытые платежи</span></div>
+                    <div class="flex gap-3"><span class="font-mono text-red-400 w-5">02</span> <span>Низкое качество услуг и устаревшие методы работы</span></div>
+                    <div class="flex gap-3"><span class="font-mono text-red-400 w-5">03</span> <span>Отсутствие эффективного государственного контроля</span></div>
+                    <div class="flex gap-3"><span class="font-mono text-red-400 w-5">04</span> <span>Высокая текучесть кадров и дефицит профессионалов</span></div>
+                </div>
+            </div>
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-4">Положительные тенденции</div>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start gap-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> <span>Рост количества агентств (+11,7% в 2025)</span></div>
+                    <div class="flex items-start gap-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> <span>Цифровизация и онлайн-платформы (ЦИАН, Авито, Домклик)</span></div>
+                    <div class="flex items-start gap-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> <span>Госпрограммы: семейная ипотека, сельская ипотека</span></div>
+                    <div class="flex items-start gap-3"><i class="fa-solid fa-check text-emerald-400 mt-1"></i> <span>Ожидаемое снижение ключевой ставки ЦБ в 2026</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPETITORS -->
+    <div id="competitors" class="max-w-5xl mx-auto px-5 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">03 • КОНКУРЕНТНЫЙ АНАЛИЗ</div>
+                <div class="section-header">ООО «Century 21 Адрес» и конкуренты</div>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <div class="glass ios-card p-7">
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <div class="font-bold text-2xl">Century 21 Адрес</div>
+                        <div class="text-emerald-400 text-sm">Лидер рынка • 20+ лет на рынке • Международный бренд</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-slate-500">ИНН 6832039025</div>
+                        <div class="text-xs">г. Тамбов, ул. Карла Маркса, 130</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div class="bg-slate-100 rounded-2xl p-4">
+                        <div class="text-xs text-slate-500">Опыт работы</div>
+                        <div class="font-semibold text-xl mt-1">с 2002 года</div>
+                    </div>
+                    <div class="bg-slate-100 rounded-2xl p-4">
+                        <div class="text-xs text-slate-500">ОКВЭД</div>
+                        <div class="font-semibold mt-1">68.31</div>
+                    </div>
+                    <div class="bg-slate-100 rounded-2xl p-4">
+                        <div class="text-xs text-slate-500">Специализация</div>
+                        <div class="font-semibold mt-1 text-[13px]">Жилая, загородная, коммерческая + ипотека + юр. сопровождение</div>
+                    </div>
+                    <div class="bg-slate-100 rounded-2xl p-4">
+                        <div class="text-xs text-slate-500">Преимущества</div>
+                        <div class="font-semibold mt-1">Международные стандарты CENTURY 21, CRM, сильный бренд</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Competitors grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Competitor cards -->
+            <div class="glass ios-card p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold">ООО «Союз Застройщиков»</div>
+                        <div class="text-xs text-slate-500">с 2016 • ТРЦ «Карнавал»</div>
+                    </div>
+                    <div class="text-red-400 text-xs font-medium px-2 py-0.5 bg-red-500/10 rounded">КРИЗИС</div>
+                </div>
+                <div class="mt-4 text-xs space-y-1">
+                    <div>Выручка 2024: <span class="font-mono">0 млн ₽</span></div>
+                    <div>Собственный капитал: <span class="text-red-400 font-mono">-3,8 млн ₽</span></div>
+                    <div>Чистый убыток: <span class="font-mono">-1,8 млн ₽</span></div>
+                </div>
+                <div class="text-[10px] mt-3 text-red-400">Отрицательный капитал, хронические убытки, высокая долговая нагрузка</div>
+            </div>
+            
+            <div class="glass ios-card p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold">ООО «Доверие»</div>
+                        <div class="text-xs text-slate-500">с 2015 • Железнодорожный район</div>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs space-y-1">
+                    <div>Выручка 2024: <span class="font-mono">2,65 млн ₽</span></div>
+                    <div>Специализация: жилая + коммерческая</div>
+                    <div>Репутация: положительные отзывы, прозрачность</div>
+                </div>
+            </div>
+            
+            <div class="glass ios-card p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold">ООО «Абсолют+»</div>
+                        <div class="text-xs text-slate-500">с 2023 • молодая компания</div>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs">Юридический уклон, сопровождение сделок, ипотека. Выручка 2024: 1,77 млн ₽</div>
+            </div>
+            
+            <div class="glass ios-card p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold">ООО «Хижина»</div>
+                        <div class="text-xs text-slate-500">с 2019 • руководитель Назарова Е.В.</div>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs">Небольшое агентство, фокус на качестве и персональном сервисе. Выручка низкая.</div>
+            </div>
+            
+            <div class="glass ios-card p-5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold">ООО «Усадьба»</div>
+                        <div class="text-xs text-slate-500">с 2011 • г. Мичуринск</div>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs">Специализация на загородной недвижимости Мичуринска и района. Выручка 0,44 млн ₽</div>
+            </div>
+            
+            <div class="glass ios-card p-5 border border-emerald-300/40 bg-emerald-50">
+                <div class="font-semibold flex items-center gap-x-2">Вывод по конкурентам</div>
+                <div class="text-xs mt-3">Century 21 Адрес — единственный устойчивый игрок с положительной динамикой капитала, международным брендом и диверсифицированными услугами. Большинство конкурентов — микробизнес с низкой финансовой устойчивостью и высоким риском выживания.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINANCE SECTION -->
+    <div id="finance" class="max-w-5xl mx-auto px-5 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">04 • ФИНАНСОВЫЙ АНАЛИЗ</div>
+                <div class="section-header">ООО «Century 21 Адрес» 2020–2025</div>
+            </div>
+            <div class="hidden md:block text-xs px-3 py-1 bg-slate-100 rounded-full">Источник: БФО Росстат / bo.nalog.ru</div>
+        </div>
+        
+        <!-- Key metrics -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="glass ios-card p-5 metric-card">
+                <div class="text-xs text-slate-500">Выручка 2025</div>
+                <div class="text-4xl font-bold tracking-tighter mt-1">4,76 млн ₽</div>
+                <div class="text-xs text-emerald-400 mt-2">-10% к 2024</div>
+            </div>
+            <div class="glass ios-card p-5 metric-card">
+                <div class="text-xs text-slate-500">Чистая прибыль 2025</div>
+                <div class="text-4xl font-bold tracking-tighter mt-1">267 тыс. ₽</div>
+                <div class="text-xs text-emerald-400 mt-2">Рентабельность продаж 5,6%</div>
+            </div>
+            <div class="glass ios-card p-5 metric-card">
+                <div class="text-xs text-slate-500">Собственный капитал</div>
+                <div class="text-4xl font-bold tracking-tighter mt-1">1,59 млн ₽</div>
+                <div class="text-xs text-emerald-400 mt-2">+20% за год • рост с 220 тыс. в 2020</div>
+            </div>
+            <div class="glass ios-card p-5 metric-card">
+                <div class="text-xs text-slate-500">Финансовая устойчивость 2025</div>
+                <div class="text-4xl font-bold tracking-tighter mt-1 text-emerald-400">Восстановлена</div>
+                <div class="text-xs mt-2">Коэффициент автономии 0,69 • 1 класс по Донцовой-Никифоровой</div>
+            </div>
+        </div>
+        
+        <!-- Revenue & Profit Chart -->
+        <div class="glass ios-card p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold">Динамика выручки и чистой прибыли (тыс. ₽)</div>
+                <div class="text-xs text-slate-500">Горизонтальный анализ</div>
+            </div>
+            <div class="chart-container h-[260px]">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Horizontal analysis summary -->
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-4">Горизонтальный анализ баланса</div>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1"><span>Активы 2020 → 2024</span> <span class="font-mono">310 → 5 687 тыс. ₽</span></div>
+                        <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full w-[95%] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div></div>
+                        <div class="text-[10px] text-emerald-400 mt-0.5">Рост в 18 раз за счёт финансовых оборотных активов</div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1"><span>Сжатие в 2025</span> <span class="font-mono">-59%</span></div>
+                        <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full w-[41%] bg-gradient-to-r from-orange-400 to-red-500 rounded-full"></div></div>
+                        <div class="text-[10px] text-orange-400 mt-0.5">Погашение долгосрочных займов (-83%)</div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-200 text-xs">Собственный капитал вырос стабильно: 220 → 1 590 тыс. ₽ (+623%)</div>
+                </div>
+            </div>
+            
+            <!-- Vertical + Liquidity -->
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-4">Вертикальный анализ и ликвидность</div>
+                <div class="text-xs space-y-3">
+                    <div class="flex justify-between"><span>Доля оборотных активов</span> <span class="font-mono">86–99,9%</span></div>
+                    <div class="flex justify-between"><span>Коэффициент автономии 2025</span> <span class="font-mono text-emerald-400">0,69 (норма &gt;0,5)</span></div>
+                    <div class="flex justify-between"><span>Коэффициент текущей ликвидности</span> <span class="font-mono">∞ (нет краткосрочных обязательств)</span></div>
+                    <div class="pt-2 text-emerald-400 text-xs">Компания обладает избыточной ликвидностью и крайне низким риском неплатёжеспособности</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5 text-xs text-center text-slate-400">Полные таблицы горизонтального и вертикального анализа, а также расчёты всех коэффициентов (финансовая устойчивость, рентабельность, деловая активность) — в полном отчёте (192 стр.)</div>
+    </div>
+
+    <!-- MARKETING -->
+    <div id="marketing" class="max-w-5xl mx-auto px-5 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">05 • МАРКЕТИНГОВЫЕ ИССЛЕДОВАНИЯ</div>
+                <div class="section-header">Региональный уровень (г. Тамбов)</div>
+            </div>
+        </div>
+        
+        <div class="glass ios-card p-7 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-slate-500 mb-1">Методология</div>
+                    <div class="text-sm">Анкетирование 41 респондента + 6 глубинных интервью. Статистическая обработка (средние, распределения). Кластерный анализ, PSM, VALS-2, ABC, Матрица Ансоффа.</div>
+                </div>
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-slate-500 mb-1">Ключевой вывод</div>
+                    <div class="text-sm">Клиенты ценят <span class="font-semibold">прозрачность комиссий</span>, полную юридическую проверку и сопровождение «под ключ». Предпочитают местные агентства за знание региона, но ценят стандарты федеральных сетей.</div>
+                </div>
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-slate-500 mb-1">PSM-анализ</div>
+                    <div class="text-3xl font-bold tracking-tighter">3,3%</div>
+                    <div class="text-xs">Оптимальная комиссия за продажу квартиры. Приемлемый диапазон: 1,8–4,8%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Clusters -->
+        <div class="mb-3 px-1 font-semibold">Кластерный анализ потребителей (5 сегментов)</div>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="glass ios-card p-4 text-xs">
+                <div class="font-bold mb-2 text-cyan-400">Кластер 1 • 25–36 лет</div>
+                <div>Женщины, доход 50–80 тыс. ₽. 60% пользовались услугами агентств. <span class="text-emerald-400">Самый перспективный сегмент.</span></div>
+            </div>
+            <div class="glass ios-card p-4 text-xs">
+                <div class="font-bold mb-2 text-cyan-400">Кластер 2 • 56+ и 18–24</div>
+                <div>Мужчины, доход до 30 тыс. ₽. 38% пользовались услугами. Консервативные.</div>
+            </div>
+            <div class="glass ios-card p-4 text-xs">
+                <div class="font-bold mb-2 text-cyan-400">Кластер 3 • 25–45 лет</div>
+                <div>Мужчины, доход &gt;120 тыс. ₽. 0% пользовались услугами агентств. Самостоятельные.</div>
+            </div>
+            <div class="glass ios-card p-4 text-xs">
+                <div class="font-bold mb-2 text-cyan-400">Кластер 4 • 46–55 лет</div>
+                <div>57% женщины, доход 80–120 тыс. ₽. 29% пользовались. Стабильные клиенты.</div>
+            </div>
+            <div class="glass ios-card p-4 text-xs border border-emerald-400/40">
+                <div class="font-bold mb-2 text-emerald-400">Кластер 5 • 25–36 лет</div>
+                <div>60% женщины, доход 30–50 тыс. ₽. 60% пользовались услугами. <span class="font-semibold">Высокая конверсия.</span></div>
+            </div>
+        </div>
+        
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-3">ABC-анализ услуг</div>
+                <div class="text-xs">97,5% выручки генерируют две услуги: комиссии по квартирам/комнатам и домам/участкам. Высокая концентрация — классическая ситуация.</div>
+                <div class="mt-4 text-[10px] text-slate-500">Приоритет: AX-квадрант (квартиры и дома)</div>
+            </div>
+            <div class="glass ios-card p-6">
+                <div class="font-semibold mb-3">Матрица Ансоффа • Рекомендации</div>
+                <div class="text-xs space-y-2">
+                    <div><span class="font-medium">Стратегия проникновения</span> — возможна и приоритетна</div>
+                    <div><span class="font-medium">Развитие рынка</span> — вероятна (районы области + коммерческая недвижимость)</div>
+                    <div class="text-emerald-400">Ключевые источники роста: цифровизация, работа с застройщиками, госпрограммы</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RISKS -->
+    <div id="risks" class="max-w-5xl mx-auto px-5 pb-16">
+        <div class="flex items-end justify-between mb-6 px-1">
+            <div>
+                <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-1">06 • АНАЛИЗ РИСКОВ</div>
+                <div class="section-header">Вероятность банкротства и карта рисков</div>
+            </div>
+        </div>
+        
+        <div class="glass ios-card p-7 mb-6">
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="flex-1">
+                    <div class="uppercase text-xs tracking-widest text-emerald-400 mb-2">ИТОГОВЫЙ ВЫВОД</div>
+                    <div class="text-xl leading-tight">Вероятность банкротства <span class="font-bold text-emerald-400">низкая</span>. Компания пережила кризисный период в 2023–2024 гг., но к 2025 году устойчиво восстановилась.</div>
+                </div>
+                <div class="flex-1 text-sm border-l border-slate-200 pl-6">
+                    <div class="space-y-1 text-xs">
+                        <div>• 13 моделей банкротства (Альтман, Лис, Таффлер, Бивер, Спрингейт, Фулмер, Зайцева, Савицкая, Ковалев и др.)</div>
+                        <div>• 2021–2022: устойчивое состояние, низкий риск</div>
+                        <div>• 2023–2024: кризисное поле (рост ДЗ, удлинение операционного цикла, падение автономии до 0,23)</div>
+                        <div>• 2025: выход в зелёную зону, 1 класс платёжеспособности (Донцова-Никифорова — 100 баллов)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Risk matrix -->
+        <div class="mb-4 px-1 font-semibold">Идентификационная карта рисков (2023–2025)</div>
+        <div class="glass ios-card p-1 overflow-hidden">
+            <table class="w-full text-xs">
+                <thead>
+                    <tr class="bg-slate-100">
+                        <th class="p-3 text-left font-normal w-24">Вероятность / Влияние</th>
+                        <th class="p-3 text-center font-normal">Слабое</th>
+                        <th class="p-3 text-center font-normal">Умеренное</th>
+                        <th class="p-3 text-center font-normal">Сильное</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10">
+                    <tr>
+                        <td class="p-3 font-medium bg-slate-100">Высокая</td>
+                        <td class="p-3 text-center text-xs">—</td>
+                        <td class="p-3 text-center text-xs">Низкая рентабельность продаж (6,1–7,4%)</td>
+                        <td class="p-3 text-center text-xs bg-red-100 text-red-600">Рост дебиторской задолженности (ДЗ/КЗ = 562), операционный цикл до 331 дня</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium bg-slate-100">Средняя</td>
+                        <td class="p-3 text-center text-xs">Аномалия модели Зайцевой (2022)</td>
+                        <td class="p-3 text-center text-xs">Снижение ROA, рост левериджа до 76,7%</td>
+                        <td class="p-3 text-center text-xs bg-orange-100 text-orange-600">Падение автономии до 0,23–0,25 (2023–2024)</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium bg-slate-100">Слабая</td>
+                        <td class="p-3 text-center text-xs">—</td>
+                        <td class="p-3 text-center text-xs">Низкая абсолютная ликвидность (2022)</td>
+                        <td class="p-3 text-center text-xs">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-5 text-xs text-center text-slate-400">Подробные расчёты по всем 13 моделям, кризисное поле Бланка и карты рисков — в полном отчёте</div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div id="conclusion" class="max-w-5xl mx-auto px-5 pb-20">
+        <div class="glass ios-card p-8">
+            <div class="uppercase tracking-[3px] text-xs font-semibold text-cyan-400 mb-2">07 • ЗАКЛЮЧЕНИЕ</div>
+            <div class="text-3xl font-bold tracking-tighter mb-6">Гипотеза подтвердилась.<br>Перспективы умеренно позитивные.</div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 text-sm">
+                <div>
+                    <div class="font-semibold mb-3 text-emerald-400">Для ООО «Century 21 Адрес» (приоритет 2026)</div>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Максимально использовать первичный рынок и партнёрства с застройщиками новых ЖК</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Усилить цифровизацию: виртуальные туры, онлайн-трекинг сделок, интеграция с агрегаторами</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Активно продвигать госпрограммы (семейная ипотека 6%, сельская ипотека 3%)</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Расширять географию на районы области и коммерческую недвижимость</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Сохранять баланс между международными стандартами и локальным человеческим подходом</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <div class="font-semibold mb-3 text-emerald-400">Для отрасли в целом</div>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Внедрять обязательные стандарты прозрачности комиссий и эскроу-счета</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Развивать систему обучения и сертификации риелторов</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Усиливать государственный контроль и переход к обязательным СРО</li>
+                        <li class="flex gap-2"><span class="text-emerald-400">→</span> Снижение ключевой ставки + рекордный ввод жилья = предпосылки для оживления спроса</li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-5 border-t border-slate-200 text-xs">
+                        Работа выполнена на <span class="font-semibold">192 страницах</span>, содержит <span class="font-semibold">23 таблицы</span>, <span class="font-semibold">50 рисунков и схем</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="border-t border-slate-200 py-8 px-5 text-xs text-slate-400 max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between gap-y-3">
+            <div>Команда «Квадратные метры» • Защита проекта • Июнь 2026</div>
+            <div class="flex gap-x-5">
+                <button onclick="showTeamModal()" class="hover:text-slate-700 transition-colors">О команде</button>
+                <button onclick="window.location.reload()" class="hover:text-slate-700 transition-colors">Обновить страницу</button>
+            </div>
+        </div>
+        <div class="mt-4 text-[10px]">Данные из официальных источников: Росстат, Росреестр, БФО, РБК Realty, отчёты компаний. Все расчёты выполнены омандой Квадратные метры.</div>
+    </div>
+
+    <!-- Modals -->
+    <div id="teamModal" onclick="hideTeamModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-end md:items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" class="glass w-full md:w-[420px] md:rounded-3xl md:m-4 p-7 rounded-t-3xl">
+            <div class="flex justify-between items-center mb-5">
+                <div class="font-semibold text-xl">Команда «Квадратные метры»</div>
+                <button onclick="hideTeamModal()" class="text-2xl leading-none text-slate-500">&times;</button>
+            </div>
+            <div class="text-sm space-y-4">
+                <div>Проект выполнен в рамках проектной работы по направлению «Экономическая безопасность».</div>
+                <div class="text-xs text-slate-500">Все расчёты, таблицы, графики и выводы подготовлены автором на основе первичных данных бухгалтерской отчётности, маркетинговых исследований и отраслевых источников.</div>
+                <div class="pt-4 border-t border-slate-200 text-xs">Тамбов • 2026</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="presentationModal" onclick="hidePresentationModal()" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-end md:items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" class="glass w-full md:w-[520px] md:rounded-3xl md:m-4 p-7 rounded-t-3xl">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <div class="font-semibold">Презентация проекта</div>
+                    <div class="text-xs text-slate-500">47 слайдов • формат .pptx</div>
+                </div>
+                <button onclick="hidePresentationModal()" class="text-2xl text-slate-500">&times;</button>
+            </div>
+            <div class="text-sm">Презентация содержит ключевые визуализации, таблицы и выводы проекта. Для получения файла обратитесь к автору или используйте полный отчёт.</div>
+            
+            <div class="mt-6 flex gap-3">
+                <button onclick="hidePresentationModal()" class="flex-1 py-3 text-sm glass-button rounded-2xl">Понятно</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#00d4ff');
+        }
+        
+        // Navbar scroll effect
+        function initNavbar() {
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('nav-scrolled');
+                } else {
+                    nav.classList.remove('nav-scrolled');
+                }
+            });
+        }
+        
+        // Revenue & Profit Chart
+        function initRevenueChart() {
+            const ctx = document.getElementById('revenueChart');
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                    datasets: [
+                        {
+                            label: 'Выручка (тыс. ₽)',
+                            data: [4106, 4730, 4348, 4030, 5310, 4758],
+                            borderColor: '#00d4ff',
+                            backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.35,
+                            fill: true,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#00d4ff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Чистая прибыль (тыс. ₽)',
+                            data: [281, 295, 266, 207, 335, 267],
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.35,
+                            fill: true,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#22c55e',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'end',
+                            labels: {
+                                color: 'rgba(15, 23, 42, 0.75)',
+                                font: { size: 11 },
+                                boxWidth: 12,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            borderColor: 'rgba(148, 163, 184, 0.3)',
+                            borderWidth: 1,
+                            displayColors: false,
+                            callbacks: {
+                                label: (ctx) => ctx.dataset.label + ': ' + ctx.raw.toLocaleString('ru-RU') + ' тыс. ₽'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(148, 163, 184, 0.2)', lineWidth: 0.5 },
+                            ticks: { color: 'rgba(15, 23, 42, 0.7)', font: { size: 11 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(148, 163, 184, 0.2)', lineWidth: 0.5 },
+                            ticks: { 
+                                color: 'rgba(15, 23, 42, 0.7)', 
+                                font: { size: 11 },
+                                callback: (val) => val.toLocaleString('ru-RU')
+                            }
+                        }
+                    },
+                    elements: {
+                        line: { borderJoinStyle: 'round' },
+                        point: { hitRadius: 20 }
+                    }
+                }
+            });
+        }
+        
+        // Modal functions
+        function showTeamModal() {
+            document.getElementById('teamModal').classList.remove('hidden');
+            document.getElementById('teamModal').classList.add('flex');
+        }
+        
+        function hideTeamModal() {
+            const modal = document.getElementById('teamModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        
+        function showPresentationModal() {
+            document.getElementById('presentationModal').classList.remove('hidden');
+            document.getElementById('presentationModal').classList.add('flex');
+        }
+        
+        function hidePresentationModal() {
+            const modal = document.getElementById('presentationModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        
+        // Smooth scroll for anchor links
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+        
+        // Keyboard support
+        function initKeyboard() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape") {
+                    const modals = document.querySelectorAll('.fixed.inset-0:not(.hidden)');
+                    if (modals.length > 0) {
+                        modals[modals.length - 1].classList.add('hidden');
+                        modals[modals.length - 1].classList.remove('flex');
+                    }
+                }
+            });
+        }
+        
+        // Initialize everything
+        function initialize() {
+            initializeTailwind();
+            initNavbar();
+            initRevenueChart();
+            initSmoothScroll();
+            initKeyboard();
+            
+            // Random subtle animation for hero orbs (Frutiger style)
+            setTimeout(() => {
+                const orbs = document.querySelectorAll('.absolute.rounded-full');
+                orbs.forEach((orb, i) => {
+                    orb.style.transitionDuration = (8000 + i * 1500) + 'ms';
+                });
+            }, 1200);
+            
+            // Easter egg: click logo to scroll top
+            const logo = document.querySelector('.fa-home');
+            if (logo) {
+                logo.parentElement.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            console.log('%c[Квадратные метры] Сайт для защиты проекта инициализирован. Стиль: Liquid Glass + iOS 26 + Frutiger Aero', 'color:#64748b');
+        }
+        
+        // Boot
+        window.onload = initialize;
+    </script>
+</body>
+</html>
